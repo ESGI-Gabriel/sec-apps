@@ -1,0 +1,22 @@
+# Fork de reference Juice Shop - lancement local pour le bloc A (S1 a S6).
+#
+# Par defaut : image publiee, demarrage en quelques secondes. C'est ce qu'utilisent S1, S2, S3.
+#   docker compose up -d        puis    http://localhost:3000
+#   docker compose down
+#
+# A partir de S4 (image-scan) et S5 (DAST sur le code de l'etudiant), on passe au build local :
+# decommenter le bloc "build" et commenter la ligne "image". Le premier build prend 8 a 12 min
+# (le postinstall compile le frontend Angular).
+#
+# Config : la config par defaut (config/default.yml) porte deja les vulnerabilites du module.
+# Pour en activer davantage, ajouter  environment: [ "NODE_ENV=unsafe" ]  (config/unsafe.yml).
+
+services:
+  juice-shop:
+    image: bkimminich/juice-shop:v20.1.1
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile          # Dockerfile upstream, deja durci (distroless, USER 65532)
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
