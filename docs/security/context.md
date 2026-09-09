@@ -23,7 +23,7 @@ Des cyberattaquants peuvent chercher à voler les données personnelles ou banca
 | # | Événement redouté (fait + impact) | Bien essentiel touché | Gravité (1 à 4) | Justification de la gravité |
 |---|---|---|---|---|
 | ER1 |Divulgation des données personnelles et bancaires des clients, entraînant des fraudes et une perte de confiance |Comptes clients |4 |Les données sensibles de tous les clients peuvent être exposées et l’entreprise risque des sanctions liées au RGPD |
-| ER2 |Passage de fausses commandes, entraînant des pertes financières pour l’entreprise |Commandes et historique d’achats |4 |L’entreprise peut préparer ou expédier des commandes frauduleuses, ce qui entraîne des coûts et fausse le chiffre d’affaires
+| ER2 |Passage de fausses commandes, entraînant des pertes financières pour l’entreprise |Commandes et historique d’achats |4 |L’entreprise peut préparer ou expédier des commandes frauduleuses, ce qui entraîne des coûts et fausse le CA
 
 ## 5. Suivi
 
