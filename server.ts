@@ -178,13 +178,30 @@ function configureApp (app: ReturnType<typeof express>, seq: typeof sequelize) {
   /* Compression for all requests */
   app.use(compression())
 
-  /* Bludgeon solution for possible CORS problems: Allow everything! */
-  app.options('*', cors())
-  app.use(cors())
+  /* Restrict browser origins to the configured application origin. */
+  const corsOptions = { origin: config.get<string>('server.baseUrl'), credentials: true }
+  app.options('*', cors(corsOptions))
+  app.use(cors(corsOptions))
 
   /* Security middleware */
   app.use(helmet.noSniff())
   app.use(helmet.frameguard())
+  app.use(helmet.referrerPolicy({ policy: 'no-referrer' }))
+  app.use(helmet.hsts({ maxAge: 15552000, includeSubDomains: true }))
+  app.use(helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
+      fontSrc: ["'self'", 'data:', 'https://fonts.gstatic.com'],
+      imgSrc: ["'self'", 'data:', 'blob:'],
+      connectSrc: ["'self'"],
+      objectSrc: ["'none'"],
+      frameAncestors: ["'none'"],
+      baseUri: ["'self'"],
+      formAction: ["'self'"]
+    }
+  }))
   // app.use(helmet.xssFilter()); // = no protection from persisted XSS via RESTful API
   app.disable('x-powered-by')
   app.use(featurePolicy({

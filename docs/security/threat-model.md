@@ -5,7 +5,7 @@
 | Bien essentiel                                   | Pourquoi il compte                                                                              | Événement redouté (EBIOS)                                           | Gravité (1 à 4) |
 | ------------------------------------------------ | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- | --------------- |
 | Comptes clients et administrateurs               | Identité, rôles, mots de passe et profils.                                                       | Usurpation ou fuite de la base `Users`.                             | 4               |
-| Jetons JWT, clés RSA et secrets de cookie        | Ils authentifient et signent les utilisateurs.                                                   | Forge de jeton ou détournement de session.                          | 4               |
+| Identité et droits des utilisateurs              | Ils conditionnent l'accès aux comptes et fonctions privilégiées ; JWT, clés RSA et secrets de cookie sont les biens supports. | Forge de jeton ou détournement de session. | 4 |
 | Commandes, paniers, prix et statuts de livraison | Ils assurent facturation, stock et confiance client.                                             | Consultation ou modification des données d'un tiers.                | 4               |
 | Données personnelles et avis produits            | Profils, adresses, commentaires et achats.                                                       | Divulgation, altération ou publication non autorisée.               | 3               |
 | Fichiers publics et internes                     | Uploads, factures, sauvegardes et journaux.                                                      | Lecture sensible ou écriture hors du dossier prévu.                 | 4               |
@@ -82,3 +82,16 @@ Cible : au moins 10 lignes, couvrant les 6 catégories au moins une fois.
 | #8                    | impossibilité d'attribuer une action sensible                | utilisateur privilégié -> modification sans journal d'audit immuable -> investigation et preuve insuffisantes                                            |
 | #9 et #10             | indisponibilité du service                                   | attaquant Internet -> contournement de limite ou XML à entités expansives -> épuisement des ressources du serveur                                        |
 | #11 et #12            | élévation de privilège                                       | utilisateur anonyme ou authentifié -> rôle contrôlé par le client ou route protégée seulement par JWT -> accès aux fonctions administratives/comptables  |
+
+## 5. Suivi des exigences prioritaires
+
+| Lignes H | Vérification ou traitement prévu |
+|---|---|
+| #1 | TP5 : test d'accès à un panier tiers, correctif dans la requête Sequelize, test de non-régression. |
+| #2 | TP3 : règles Semgrep ciblées et Gitleaks sur tout l'historique ; rotation de la clé si elle était utilisée hors laboratoire. |
+| #4 | TP3 : règle MD5 ; migration des mots de passe à étudier séparément, avec compatibilité des comptes existants. |
+| #7 | TP8 : revue manuelle des répertoires exposés et preuve HTTP ; aucun scanner ne garantit l'absence d'un fichier sensible. |
+| #10 | TP8 : inspection du parseur XML, puis essai borné en local ; limiter la taille et désactiver les entités si le risque est confirmé. |
+| #11 et #12 | TP8 : essais de création de compte et d'accès aux routes privilégiées avec des rôles distincts ; corriger au point d'autorisation serveur. |
+
+Les autres lignes sont conservées comme hypothèses de menace à vérifier ; une piste STRIDE n'est pas en elle-même une vulnérabilité démontrée.

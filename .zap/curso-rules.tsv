@@ -1,0 +1,7 @@
+10096	IGNORE	(Timestamp de build public - risque accepte pour le laboratoire, 2026-10-05)
+10063	IGNORE	(Feature Policy obsolete - dette suivie dans l'ADR 0001, 2026-10-05)
+10049	IGNORE	(Contenu statique public et cachable, 2026-10-05)
+10109	IGNORE	(Application web moderne - information, 2026-10-05)
+10055	IGNORE	(CSP unsafe-inline necessaire au build Angular actuel ; voir ADR 0001, 2026-10-05)
+90004	IGNORE	(COEP/COOP hors du correctif ; revue a planifier, 2026-10-05)
+10110	IGNORE	(Fonctions du bundle Angular a qualifier si le rapport les remonte, 2026-10-05)

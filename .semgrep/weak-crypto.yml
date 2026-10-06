@@ -1,0 +1,23 @@
+rules:
+  - id: juiceshop-weak-hash-md5
+    message: MD5 ou SHA-1 n'est pas une fonction de dérivation de mot de passe.
+    languages: [typescript, javascript]
+    severity: ERROR
+    metadata:
+      cwe: "CWE-327: Use of a Broken or Risky Cryptographic Algorithm"
+    patterns:
+      - pattern-either:
+          - pattern: crypto.createHash("md5")
+          - pattern: crypto.createHash("sha1")
+
+  - id: juiceshop-hardcoded-private-key
+    message: Clé privée ou secret codé en dur ; sortir du dépôt et prévoir une rotation.
+    languages: [typescript, javascript]
+    severity: ERROR
+    metadata:
+      cwe: "CWE-798: Use of Hard-coded Credentials"
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $KEY = "=~/-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----/"
+          - pattern: crypto.createHmac($ALGO, "...")

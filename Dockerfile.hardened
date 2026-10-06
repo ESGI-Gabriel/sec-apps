@@ -1,0 +1,11 @@
+FROM node:24 AS builder
+WORKDIR /juice-shop
+COPY . .
+RUN npm ci && npm run build && npm prune --omit=dev
+
+FROM gcr.io/distroless/nodejs24-debian13
+WORKDIR /juice-shop
+COPY --from=builder --chown=65532:0 /juice-shop .
+USER 65532
+EXPOSE 3000
+CMD ["/juice-shop/build/app.js"]

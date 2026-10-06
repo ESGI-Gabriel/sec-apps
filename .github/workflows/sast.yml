@@ -17,7 +17,7 @@ jobs:
         continue-on-error: true
         run: |
           docker run --rm -v "$PWD:/src" -w /src semgrep/semgrep:1.145.0 \
-            semgrep scan --config=p/ci \
+            semgrep scan --config=auto --config=.semgrep/ \
               --sarif --output=semgrep.sarif --error --metrics=off \
               lib routes models
 
@@ -27,3 +27,20 @@ jobs:
         with:
           sarif_file: semgrep.sarif
           category: semgrep
+
+      - name: Seuil de blocage
+        if: steps.semgrep.outcome == 'failure'
+        run: |
+          echo "::error::Semgrep a remonte des findings bloquants"
+          exit 1
+
+  secret-detection:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_ENABLE_UPLOAD_ARTIFACT: "true"
